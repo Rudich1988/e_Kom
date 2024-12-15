@@ -1,6 +1,6 @@
 from typing import Union
 
-from src.project.fields.dto.fields_dto import FieldsDTO, FieldDTO
+from src.project.fields.dto.fields_dto import FieldsDTO
 from src.project.form_templates.dto.forms_dto import FormTemplateDto
 from src.project.form_templates.repositories.mongo_db_repository import (
     FormTemplateRepository
@@ -37,13 +37,12 @@ class FormService:
                 data=validated_fields
             )
         )
-        return form_data
         if form_data:
             return form_data
         return FieldsDTO(
             fields = {
-                field.name: field.type
+                field.name: field.type.value
                 for field in validated_fields.
-                fields
+                validated_fields
             }
         )

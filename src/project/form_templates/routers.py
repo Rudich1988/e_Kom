@@ -1,4 +1,3 @@
-from dataclasses import fields
 from http import HTTPStatus
 
 from fastapi import APIRouter, Body
@@ -9,7 +8,7 @@ from src.project.form_templates.repositories.mongo_db_repository import (
     FormTemplateRepository
 )
 from src.project.form_templates.schemas.forms_schemas import (
-    FormTemplateSchema
+    FormNameSchema
 )
 from src.project.form_templates.services.forms_service import FormService
 from src.project.fields.schemas.fields_schemas import FieldsSchema
@@ -23,13 +22,12 @@ router = APIRouter(
 
 @router.post(
     '/get_form',
-    response_model=FormTemplateSchema
+    response_model=FormNameSchema
 )
 async def get_form(
         fields_data: FieldsSchema = Body(...)
 ):
     #try:
-
     form_data = FieldsDTO(
         fields=fields_data.root
     )
@@ -40,23 +38,22 @@ async def get_form(
     ).get_suitable_form_template(
         data=form_data
     )
-    if isinstance(form_template_data, FormTemplateDto):
-        FormTemplateSchema(
-            id=form_template_data.id,
-            name=form_template_data.name,
-            fields=form_template_data.fields
+    if isinstance(
+            form_template_data,
+            FormTemplateDto
+    ):
+        form_name = FormNameSchema(
+            name=form_template_data.name
         )
         return JSONResponse(
-            content={
-                "form name": form_template_data.name
-            },
+            content=form_name.model_dump(),
             status_code=HTTPStatus.OK
         )
     fields = FieldsSchema(
-        fields=form_template_data.fields
+        root=form_template_data.fields
     )
     return JSONResponse(
-        content=fields.fields,
+        content=fields.root,
         status_code=HTTPStatus.NOT_FOUND
     )
     #except

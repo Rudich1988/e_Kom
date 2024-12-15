@@ -3,9 +3,9 @@ from pymongo.errors import OperationFailure
 
 from src.project.config.base import Config
 
-#MONGO_URI = Config.MONGO_URI
-#client = MongoClient(MONGO_URI)
-#db = client.get_database()
+MONGO_URI = Config.MONGO_URI
+client = MongoClient(MONGO_URI)
+db = client.get_database()
 
 #def get_db():
  #   return db
@@ -44,7 +44,6 @@ def init_db():
         db = client.get_database()  # Получаем базу данных
 
         # Проверка соединения с базой данных
-        client.admin.command('ping')  # Пинг для проверки, что сервер доступен
 
         collection = db["form_templates"]
 
@@ -54,6 +53,19 @@ def init_db():
         collection.create_index([("fields.type", ASCENDING)], name="field_type_index")
 
         print("MongoDB connected and indexes created successfully.")
+
+        if collection.count_documents({}) == 0:
+            # Добавить несколько шаблонов для примера
+            collection.insert_many([
+                {
+                    "name": "Product Form",
+                    "fields": [{"product": "apple", "type": "text"}, {"name": "delivery_date", "type": "date"}]
+                },
+                {
+                    "name": "User Form",
+                    "fields": [{"name": "first_name", "type": "text"}, {"name": "email", "type": "email"}]
+                }
+            ])
 
     except ConnectionError as e:
         print("Ошибка подключения к MongoDB:", e)

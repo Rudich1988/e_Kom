@@ -1,8 +1,6 @@
-from pymongo import MongoClient
-
-from src.project.config.base import Config
 from src.project.core.abstract_repository import AbstractRepository
-#from src.project.db.mongo_db import db
+from src.project.db.mongo_db import db
+
 
 
 class MongoDBRepository(AbstractRepository):
@@ -10,8 +8,6 @@ class MongoDBRepository(AbstractRepository):
             self,
             collection_name: str
     ) -> None:
-        client = MongoClient(Config.MONGO_URI)
-        db = client.get_database()
         self.collection = db[
             collection_name
         ]

@@ -26,3 +26,10 @@ class FieldDTO:
 @dataclass
 class ValidatedFieldsDTO:
     validated_fields: list[FieldDTO]
+
+
+@dataclass
+class FieldsDTO:
+    fields: dict[str, str] = field(
+        default_factory=dict
+    )

@@ -19,3 +19,6 @@ class FormTemplateSchema(BaseModel):
         json_encoders = {
             ObjectId: str
         }
+
+class FormNameSchema(BaseModel):
+    name: str
