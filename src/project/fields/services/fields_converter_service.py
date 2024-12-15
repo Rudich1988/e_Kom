@@ -1,4 +1,3 @@
-from dataclasses import fields
 from datetime import datetime
 from typing import Optional
 import re
@@ -9,7 +8,11 @@ from email_validator import (
 )
 
 from src.project.enums.types_enums import Types
-from src.project.fields.dto.fields_dto import FieldsDTO, ValidatedFieldsDTO, FieldDTO
+from src.project.fields.dto.fields_dto import (
+    FieldsDTO,
+    ValidatedFieldsDTO,
+    FieldDTO
+)
 
 
 class FieldsConverterService:
@@ -86,16 +89,6 @@ class FieldsConverterService:
             for field_name,
             field_value in data.fields.items()
         ]
-        '''
-            {
-            field: self.set_value_type(value)
-            for field, value
-            in data.fields.items()
-        }
-        return FieldsDTO(
-            fields=fields
-        )
-        '''
         return ValidatedFieldsDTO(
             validated_fields=validated_fields
         )

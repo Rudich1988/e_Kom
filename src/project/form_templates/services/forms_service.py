@@ -42,7 +42,7 @@ class FormService:
         return FieldsDTO(
             fields = {
                 field.name: field.type.value
-                for field in validated_fields.
-                validated_fields
+                for field in
+                validated_fields.validated_fields
             }
         )

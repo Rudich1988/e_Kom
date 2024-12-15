@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from fastapi import APIRouter, Body
 from fastapi.responses import JSONResponse
+from pydantic_core._pydantic_core import ValidationError
 
 from src.project.form_templates.dto.forms_dto import FormTemplateDto
 from src.project.form_templates.repositories.mongo_db_repository import (
@@ -56,4 +57,18 @@ async def get_form(
         content=fields.root,
         status_code=HTTPStatus.NOT_FOUND
     )
-    #except
+    '''
+    except ValidationError:
+        return JSONResponse(
+            content={
+                "error": "incorrect request data"
+            },
+            status_code=HTTPStatus.BAD_REQUEST
+        )
+    except Exception:
+        return JSONResponse(
+            content={
+                "error": "server error"
+            }
+        )
+    '''
